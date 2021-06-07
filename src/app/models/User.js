@@ -6,7 +6,8 @@ class User extends Model {
         super.init({
             id: {
                 primaryKey:true,
-                type:Sequelize.INTEGER
+                type:Sequelize.INTEGER,
+                autoIncrement: true
 
             },
             name: Sequelize.STRING,
