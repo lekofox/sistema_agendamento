@@ -1,25 +1,51 @@
-import User from '../models/User'
+import User from '../models/User';
 
 class UserController {
-    async store(req,res){
-
+    async store(req, res) {
         const userExists = await User.findOne({
-            where: {email: req.body.email}
+            where: { email: req.body.email }
         })
-        if (userExists){
-            return res.status(400).json({error: 'Usuário já cadastrado'})
+        if (userExists) {
+            return res.status(400).json({ error: 'Usuario ja cadastrado' })
         }
-        const {id, name, email, provider} = await User.create(req.body)
+        const { id, name, email, provider } = await User.create(req.body)
 
-
-        return res.status(200).json({id, name, email, provider})
+        return res.json({
+            id,
+            name,
+            email,
+            provider
+        })
     }
+    async update(req, res) {
+        const { email, oldPassword } = req.body;
 
-    async update( req, res){
-        console.log(req.userId)
-        return res.json({message: true})
+        const user = await User.findByPk(req.userId)
+
+        if (email && email != user.email) {
+            const userExists = await User.findOne({
+                where: { email: email }
+
+            })
+            if (userExists) {
+                return res.status(400).json({ error: 'Usuario ja cadastrado' })
+            }
+        }
+        if (oldPassword && !(await user.checkPassword(oldPassword))) {
+            return res.status(401).json({
+                message: 'Senha não confere'
+            })
+        }
+
+        const { id, name, provider } = await user.update(req.body)
+        return res.json({ 
+            id,
+            name,
+            email,
+            provider,
+         })
     }
-
 }
+
 
 export default new UserController
