@@ -12,7 +12,7 @@ class Appointment extends Model {
 
             },
             canceled_at: Sequelize.DATE,
-            
+            date: Sequelize.DATE
         },
             {
                 sequelize,

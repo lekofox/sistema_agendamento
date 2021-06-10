@@ -7,6 +7,7 @@ import multer from 'multer';
 import multerConfig from './config/multer'
 import FileController from './app/controllers/FileController'
 import CollaboratorController from './app/controllers/CollaboratorController'
+import AppointmentController from './app/controllers/AppointmentController';
 
 const routes = new Router();
 const upload = multer(multerConfig)
@@ -18,9 +19,14 @@ routes.post('/session', SessionController.store)
 
 routes.use(authMiddleware)
 
+// Rota de agendamento
+routes.post('/appointments', AppointmentController.store)
+routes.get('/appointments', AppointmentController.index)
+
+// rota de update
 routes.put('/update', UserController.update)
 
-// Lista de colaborades
+// Lista de colaboradores
 routes.get('/collaborator', CollaboratorController.index)
 
 
