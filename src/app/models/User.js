@@ -6,8 +6,8 @@ class User extends Model {
     static init(sequelize) {
         super.init({
             id: {
-                primaryKey:true,
-                type:Sequelize.INTEGER,
+                primaryKey: true,
+                type: Sequelize.INTEGER,
                 autoIncrement: true
 
             },
@@ -19,22 +19,26 @@ class User extends Model {
         },
             {
                 sequelize,
-               
+
             })
 
-            this.addHook('beforeSave', async user => {
-                if (user.password){
-                    user.password_hash = await bcrypt.hash(
-                        user.password, 10
-                    )
-                }
-            })
+        this.addHook('beforeSave', async user => {
+            if (user.password) {
+                user.password_hash = await bcrypt.hash(
+                    user.password, 10
+                )
+            }
+        })
 
-            return this
-            
+        return this
+
     }
-    checkPassword(password){
-        return bcrypt.compare( password, this.password_hash)
+    static associate(models) {
+        this.belongsTo(models.File, { foreignKey: 'file_id' })
+    }
+
+    checkPassword(password) {
+        return bcrypt.compare(password, this.password_hash)
     }
 }
 
