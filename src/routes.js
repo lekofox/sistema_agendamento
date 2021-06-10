@@ -6,6 +6,7 @@ import authMiddleware from './app/middlewares/auth'
 import multer from 'multer';
 import multerConfig from './config/multer'
 import FileController from './app/controllers/FileController'
+import CollaboratorController from './app/controllers/CollaboratorController'
 
 const routes = new Router();
 const upload = multer(multerConfig)
@@ -18,6 +19,9 @@ routes.post('/session', SessionController.store)
 routes.use(authMiddleware)
 
 routes.put('/update', UserController.update)
+
+// Lista de colaborades
+routes.get('/collaborator', CollaboratorController.index)
 
 
 // upload
