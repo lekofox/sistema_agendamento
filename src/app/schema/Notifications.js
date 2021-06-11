@@ -10,8 +10,16 @@ const NotificationSchema = new mongoose.Schema({
         required: true
     },
     read: {
-        
-    }
+        type: Boolean,
+        required: true,
+        default: false 
+    },
 
 
-})
+},
+{
+    timestamps: true,   
+}
+)
+
+export default mongoose.model('Notifications', NotificationSchema)
